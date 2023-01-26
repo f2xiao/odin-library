@@ -1,21 +1,10 @@
 let myLibrary = [
-  new Book('Alice in Wonder Land','Tim Burton', 123, false),
-  {
-    title: 'The Three-Body Problem',
-    author: 'Yuxi Liu',
-    pages: 200,
-    read: false
-  },
-  {
-    title: 'Harry Potter',
-    author: ' J. K. Rowling',
-    pages: 600,
-    read: false
-  },
+  new Book('Harry Potter','J. K. Rowling', 600, false),
 ];
 
 const container = document.querySelector('#container');
-
+const submit = document.querySelector('#submit');
+const inputs = document.querySelectorAll('form input');
 
 // Book constructor
 function Book(title, author, pages, read) {
@@ -31,8 +20,22 @@ Book.prototype.info = function () {
 
 
 // TODO: addBookToLibrary
-function addBookToLibrary() {
-  
+function addBookToLibrary(e) {
+  // process the book information from the form inputs and create a new book object
+  e.preventDefault();
+  // get all the user inputs
+  const arr = Array.from(inputs).map(input => input.value);
+ // create a new book obj and push it to the `myLibrary` array
+  console.log(arr)
+  // convert the read value
+  if (arr[3] == "on") {
+    arr[3] = true;
+  } else {
+    arr[3] = false;
+  }
+  myLibrary.push(new Book(...arr));
+  // render the books
+  renderBooks();
 }
 
 // renders all book objects in the 'myLibrary' array to the webpage
@@ -48,9 +51,8 @@ function renderBooks() {
   })
 }
 
-// TODO: process the book information from the form and create a new book object
 
-
+submit.addEventListener('click', addBookToLibrary)
 
 renderBooks();
 
