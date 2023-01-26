@@ -3,8 +3,9 @@ let myLibrary = [
 ];
 
 const container = document.querySelector('#container');
-const submit = document.querySelector('#submit');
+const newBook = document.querySelector('#newBook');
 const inputs = document.querySelectorAll('form input');
+const message = document.querySelector('#message');
 
 // Book constructor
 function Book(title, author, pages, read) {
@@ -18,22 +19,31 @@ Book.prototype.info = function () {
   return `${this.title} by ${this.author} has ${this.pages} pages, and is ${this.read ? 'read' : 'not read yet'}`
 }
 
-
 // addBookToLibrary
 function addBookToLibrary(e) {
-  // process the book information from the form inputs and create a new book object
   e.preventDefault();
-  // get all the user inputs
-  const arr = Array.from(inputs).map(input => input.value);
-  // convert the read value
-  // BUG: input value conversion is not expected
-  arr[3] = arr[3] === "on" ? true : false;
-  // create a new book obj and push it to the `myLibrary` array
+  // get all the user inputs and store them in an array
+  const inputsArr = Array.from(inputs);
+  const checkbox = inputsArr.pop();
+  const arr = inputsArr.map(input => input.value);
+  // add the read boolean value
+  arr.push(checkbox.checked);
+  // create a new book obj 
   const book = new Book(...arr);
-  myLibrary.push(book);
-  // render the new book
-  container.innerHTML = '';
-  renderBooks();
+  // check if it exists in the "myLibrary" array
+  if (bookExists(book)) {
+    message.textContent = 'Sorry, the book already exists';
+  } else {
+    // if not, push it to the `myLibrary` array
+    myLibrary.push(book);
+    // render the new book
+    container.innerHTML = '';
+    renderBooks();
+  }
+}
+
+function bookExists(book) {
+  return myLibrary.some(ele => ele.title == book.title && ele.author == book.author);
 }
 
 function createBookNode(book) {
@@ -47,11 +57,12 @@ function createBookNode(book) {
 
 // renders all book objects in the 'myLibrary' array to the webpage
 function renderBooks() {
+  message.textContent = '';
   // loop through 'myLibrary' array to render each book
   myLibrary.forEach(book => container.appendChild(createBookNode(book)));
 }
 
-submit.addEventListener('click', addBookToLibrary)
+newBook.addEventListener('submit', addBookToLibrary)
 
 renderBooks();
 

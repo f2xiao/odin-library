@@ -16,15 +16,15 @@
     <ul id="container">
     </ul>
      <!-- form element to record book info -->
-    <form>
+    <form id="newBook">
       <input type="text" id="title" name="title" placeholder="Title" required><br>
       <input type="text" id="author" name="author" placeholder="Author" required><br>
       <input type="number" id="pages" name="pages" placeholder="0" required min=1><br>
       <label for="read">read?</label>
       <input type="checkbox" id="read"><br>
-      <button id="submit">Add a new book</button>
+      <button type="submit">Add a new book</button>
     </form> 
-    <!-- TODO form validation -->
+    <p id="message"></p>
   </main>
 </body>
 </html>
