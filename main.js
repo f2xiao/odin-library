@@ -19,7 +19,7 @@ Book.prototype.info = function () {
 }
 
 
-// TODO: addBookToLibrary
+// addBookToLibrary
 function addBookToLibrary(e) {
   // process the book information from the form inputs and create a new book object
   e.preventDefault();
@@ -44,6 +44,7 @@ function renderBooks() {
   // create a 'li' element
   // add textContent to it
   // append the 'li' element to the container ele
+  // BUG: duplicate book obj is render again when the function is called
   myLibrary.forEach(book => {
     const node = document.createElement('li');
     node.textContent = book.info();
