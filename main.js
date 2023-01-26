@@ -42,7 +42,7 @@ function renderBooks() {
   // append the 'li' element to the container ele
   myLibrary.forEach(book => {
     const node = document.createElement('li');
-    node.textContent = `${book.title} by ${book.author} has ${book.pages} pages, and is ${book.read ? 'read' : 'not read yet'}`;
+    node.textContent = book.info();
     container.appendChild(node);
   })
 }
