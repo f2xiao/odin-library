@@ -32,22 +32,23 @@ function addBookToLibrary(e) {
   const book = new Book(...arr);
   myLibrary.push(book);
   // render the new book
-  renderOneBook(book);
+  container.innerHTML = '';
+  renderBooks();
 }
 
-function renderOneBook(book) {
+function createBookNode(book) {
   // create a 'li' element
   // add textContent to it
   // append the 'li' element to the container ele
   const node = document.createElement('li');
   node.textContent = book.info();
-  container.appendChild(node);
+  return node;
 }
 
 // renders all book objects in the 'myLibrary' array to the webpage
 function renderBooks() {
   // loop through 'myLibrary' array to render each book
-  myLibrary.forEach(book => renderOneBook(book))
+  myLibrary.forEach(book => container.appendChild(createBookNode(book)));
 }
 
 submit.addEventListener('click', addBookToLibrary)
