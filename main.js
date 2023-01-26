@@ -23,9 +23,10 @@ function Book(title, author, pages, read) {
   this.author = author;
   this.pages = pages;
   this.read = read;
-  this.info = () => {
-    return `${this.title} by ${this.author} has ${this.pages} pages, and is ${this.read ? 'read' : 'not read yet'}`
-  }
+}
+
+Book.prototype.info = function () {
+  return `${this.title} by ${this.author} has ${this.pages} pages, and is ${this.read ? 'read' : 'not read yet'}`
 }
 
 
@@ -48,6 +49,7 @@ function renderBooks() {
 }
 
 // TODO: process the book information from the form and create a new book object
+
 
 
 renderBooks();
