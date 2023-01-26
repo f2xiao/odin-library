@@ -26,7 +26,8 @@ function addBookToLibrary(e) {
   // get all the user inputs
   const arr = Array.from(inputs).map(input => input.value);
   // convert the read value
-  arr[3] = arr[3] == "on" ? true : false;
+  // BUG: input value conversion is not expected
+  arr[3] = arr[3] === "on" ? true : false;
   // create a new book obj and push it to the `myLibrary` array
   const book = new Book(...arr);
   myLibrary.push(book);

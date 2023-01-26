@@ -17,9 +17,9 @@
     </ul>
      <!-- form element to record book info -->
     <form>
-      <input type="text" id="title" name="title" placeholder="Title"><br>
-      <input type="text" id="author" name="author" placeholder="Author"><br>
-      <input type="number" id="pages" name="pages" placeholder="0"><br>
+      <input type="text" id="title" name="title" placeholder="Title" required><br>
+      <input type="text" id="author" name="author" placeholder="Author" required><br>
+      <input type="number" id="pages" name="pages" placeholder="0" required min=1><br>
       <label for="read">read?</label>
       <input type="checkbox" id="read"><br>
       <button id="submit">Add a new book</button>
