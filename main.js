@@ -25,33 +25,29 @@ function addBookToLibrary(e) {
   e.preventDefault();
   // get all the user inputs
   const arr = Array.from(inputs).map(input => input.value);
- // create a new book obj and push it to the `myLibrary` array
-  console.log(arr)
   // convert the read value
-  if (arr[3] == "on") {
-    arr[3] = true;
-  } else {
-    arr[3] = false;
-  }
-  myLibrary.push(new Book(...arr));
-  // render the books
-  renderBooks();
+  arr[3] = arr[3] == "on" ? true : false;
+  // create a new book obj and push it to the `myLibrary` array
+  const book = new Book(...arr);
+  myLibrary.push(book);
+  // render the new book
+  renderOneBook(book);
+}
+
+function renderOneBook(book) {
+  // create a 'li' element
+  // add textContent to it
+  // append the 'li' element to the container ele
+  const node = document.createElement('li');
+  node.textContent = book.info();
+  container.appendChild(node);
 }
 
 // renders all book objects in the 'myLibrary' array to the webpage
 function renderBooks() {
-  // loop through 'myLibrary' array to perform the following operations:
-  // create a 'li' element
-  // add textContent to it
-  // append the 'li' element to the container ele
-  // BUG: duplicate book obj is render again when the function is called
-  myLibrary.forEach(book => {
-    const node = document.createElement('li');
-    node.textContent = book.info();
-    container.appendChild(node);
-  })
+  // loop through 'myLibrary' array to render each book
+  myLibrary.forEach(book => renderOneBook(book))
 }
-
 
 submit.addEventListener('click', addBookToLibrary)
 
