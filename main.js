@@ -33,7 +33,7 @@ function addBookToLibrary() {
 }
 
 // renders all book objects in the 'myLibrary' array to the webpage
-function displayBooks() {
+function renderBooks() {
   // loop through 'myLibrary' array to perform the following operations:
   // create a 'li' element
   // add textContent to it
@@ -48,5 +48,5 @@ function displayBooks() {
 // TODO: process the book information from the form and create a new book object
 
 
-displayBooks();
+renderBooks();
 
