@@ -1,10 +1,5 @@
 let myLibrary = [
-  {
-    title: 'Alice in Wonder Land',
-    author: 'Tim Burton',
-    pages: 123,
-    read: false
-  },
+  new Book('Alice in Wonder Land','Tim Burton', 123, false),
   {
     title: 'The Three-Body Problem',
     author: 'Yuxi Liu',
@@ -22,10 +17,17 @@ let myLibrary = [
 const container = document.querySelector('#container');
 
 
-// TODO: Book constructor
-function Book() {
-  
+// Book constructor
+function Book(title, author, pages, read) {
+  this.title = title;
+  this.author = author;
+  this.pages = pages;
+  this.read = read;
+  this.info = () => {
+    return `${this.title} by ${this.author} has ${this.pages} pages, and is ${this.read ? 'read' : 'not read yet'}`
+  }
 }
+
 
 // TODO: addBookToLibrary
 function addBookToLibrary() {
