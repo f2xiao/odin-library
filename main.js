@@ -21,14 +21,17 @@ let myLibrary = [
 
 const container = document.querySelector('#container');
 
+// TODO: Book constructor
 function Book() {
   
 }
 
+// TODO: addBookToLibrary
 function addBookToLibrary() {
   
 }
 
+// renders all book objects in the 'myLibrary' array to the webpage
 function displayBooks() {
   // loop through 'myLibrary' array to perform the following operations:
   // create a 'li' element
@@ -41,4 +44,8 @@ function displayBooks() {
   })
 }
 
+// TODO: process the book information from the form and create a new book object
+
+
 displayBooks();
+
