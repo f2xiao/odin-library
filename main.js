@@ -12,7 +12,7 @@ function Book(title, author, pages, read) {
 }
 
 Book.prototype.info = function () {
-  return `${this.title} by ${this.author} has ${this.pages} pages, and is ${this.read ? 'read' : 'not read yet'}`
+  return `${this.title} by ${this.author} has ${this.pages} pages. `
 }
 
 Book.prototype.createBookNode = function () {
@@ -20,13 +20,21 @@ Book.prototype.createBookNode = function () {
   // add textContent to it
   // append the 'li' element to the container ele
   const node = document.createElement('li');
+
   // create delete button node
   const deleteButton = document.createElement('button');
   deleteButton.className = 'delete';
   deleteButton.textContent = 'DELETE';
   deleteButton.addEventListener('click', removeBookFromLibrary);
 
+  // create read toggle-button node
+  const readButton = document.createElement('button');
+  readButton.className = 'read';
+  readButton.textContent = `${this.read ? 'read' : 'not read'}`;
+  readButton.addEventListener('click', changeReadStatus);
+
   node.textContent = this.info();
+  node.appendChild(readButton);
   node.appendChild(deleteButton);
   return node;
 }
@@ -53,12 +61,30 @@ function addBookToLibrary(e) {
   }
 }
 
+function getBookIndex(node) {
+  return node.getAttribute('data-book');
+}
+
 // delete a book from the library
 function removeBookFromLibrary(e) {
   e.preventDefault();
-  const bookIndex = e.target.parentNode.getAttribute('data-book');
-  // filter the library array t9o find the book and remove it
+  // get book index
+  const bookNode = e.target.parentNode;
+  const bookIndex = getBookIndex(bookNode);
+  // filter the library array to find the book and remove it
   myLibrary = myLibrary.filter((book, index) => index != bookIndex);
+  // re-render with new library
+  renderNewLibrary();
+}
+
+// change read status of a book
+function changeReadStatus(e) {
+  e.preventDefault();
+  // get book index
+  const bookNode = e.target.parentNode;
+  const bookIndex = getBookIndex(bookNode);
+  // update the read status of book object stored in the library
+  myLibrary[bookIndex].read = !myLibrary[bookIndex].read;
   // re-render with new library
   renderNewLibrary();
 }
