@@ -20,11 +20,18 @@ Book.prototype.createBookNode = function () {
   // add textContent to it
   // append the 'li' element to the container ele
   const node = document.createElement('li');
+  // create delete button node
+  const deleteButton = document.createElement('button');
+  deleteButton.className = 'delete';
+  deleteButton.textContent = 'DELETE';
+  deleteButton.addEventListener('click', removeBookFromLibrary);
+
   node.textContent = this.info();
+  node.appendChild(deleteButton);
   return node;
 }
 
-// addBookToLibrary
+// add a book to the library
 function addBookToLibrary(e) {
   e.preventDefault();
   // get all the user inputs and store them in an array
@@ -41,10 +48,19 @@ function addBookToLibrary(e) {
   } else {
     // if not, push it to the `myLibrary` array
     myLibrary.push(book);
-    // render the new book
-    container.innerHTML = '';
-    renderBooks();
+    // re-render with new library
+    renderNewLibrary();
   }
+}
+
+// delete a book from the library
+function removeBookFromLibrary(e) {
+  e.preventDefault();
+  const bookIndex = e.target.parentNode.getAttribute('data-book');
+  // filter the library array t9o find the book and remove it
+  myLibrary = myLibrary.filter((book, index) => index != bookIndex);
+  // re-render with new library
+  renderNewLibrary();
 }
 
 function bookExists(book) {
@@ -52,10 +68,19 @@ function bookExists(book) {
 }
 
 // renders all book objects in the 'myLibrary' array to the webpage
-function renderBooks() {
+function renderLibrary() {
   message.textContent = '';
   // loop through 'myLibrary' array to render each book
-  myLibrary.forEach(book => container.appendChild(book.createBookNode()));
+  myLibrary.forEach((book, index) => {
+    const bookNode = book.createBookNode();
+    bookNode.setAttribute('data-book', index);
+    container.appendChild(bookNode);
+  });
+}
+
+function renderNewLibrary() {
+  container.innerHTML = '';
+  renderLibrary();
 }
 
 // User Interactions
@@ -63,8 +88,9 @@ const container = document.querySelector('#container');
 const newBook = document.querySelector('#newBook');
 const inputs = document.querySelectorAll('form input');
 const message = document.querySelector('#message');
+const deleteButtons = Array.from(document.querySelectorAll('.delete'));
 
 newBook.addEventListener('submit', addBookToLibrary);
 
-renderBooks();
+renderLibrary();
 
