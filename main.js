@@ -1,11 +1,7 @@
+// Data Structures
 let myLibrary = [
   new Book('Harry Potter','J. K. Rowling', 600, false),
 ];
-
-const container = document.querySelector('#container');
-const newBook = document.querySelector('#newBook');
-const inputs = document.querySelectorAll('form input');
-const message = document.querySelector('#message');
 
 // Book constructor
 function Book(title, author, pages, read) {
@@ -17,6 +13,15 @@ function Book(title, author, pages, read) {
 
 Book.prototype.info = function () {
   return `${this.title} by ${this.author} has ${this.pages} pages, and is ${this.read ? 'read' : 'not read yet'}`
+}
+
+Book.prototype.createBookNode = function () {
+  // create a 'li' element
+  // add textContent to it
+  // append the 'li' element to the container ele
+  const node = document.createElement('li');
+  node.textContent = this.info();
+  return node;
 }
 
 // addBookToLibrary
@@ -46,23 +51,20 @@ function bookExists(book) {
   return myLibrary.some(ele => ele.title == book.title && ele.author == book.author);
 }
 
-function createBookNode(book) {
-  // create a 'li' element
-  // add textContent to it
-  // append the 'li' element to the container ele
-  const node = document.createElement('li');
-  node.textContent = book.info();
-  return node;
-}
-
 // renders all book objects in the 'myLibrary' array to the webpage
 function renderBooks() {
   message.textContent = '';
   // loop through 'myLibrary' array to render each book
-  myLibrary.forEach(book => container.appendChild(createBookNode(book)));
+  myLibrary.forEach(book => container.appendChild(book.createBookNode()));
 }
 
-newBook.addEventListener('submit', addBookToLibrary)
+// User Interactions
+const container = document.querySelector('#container');
+const newBook = document.querySelector('#newBook');
+const inputs = document.querySelectorAll('form input');
+const message = document.querySelector('#message');
+
+newBook.addEventListener('submit', addBookToLibrary);
 
 renderBooks();
 
