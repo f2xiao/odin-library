@@ -1,22 +1,24 @@
 // Data Structures
-// Book constructor
-function Book(title, author, pages, read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-}
+// Book class
+class Book {
+  constructor(title, author, pages, read){
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+  }
 
-Book.prototype.info = function () {
-  return `${this.title} by ${this.author} has ${this.pages} pages. `
-}
+  info(){
+    return `${this.title} by ${this.author} has ${this.pages} pages. `
+  }
 
-Book.prototype.template = function (index) {
-  return `<li data-book=${index}>
-            ${this.info()} 
-            <button class="read">${this.read ? 'read' : 'not read'}</button>
-            <button class="delete">DELETE</button>
-          </li>`
+  template(index){
+    return `<li data-book=${index}>
+              ${this.info()} 
+              <button class="read">${this.read ? 'read' : 'not read'}</button>
+              <button class="delete">DELETE</button>
+            </li>`
+  }
 }
 
 // States
