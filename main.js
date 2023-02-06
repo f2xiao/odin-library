@@ -1,8 +1,4 @@
 // Data Structures
-let myLibrary = [
-  new Book('Harry Potter','J. K. Rowling', 600, false),
-];
-
 // Book constructor
 function Book(title, author, pages, read) {
   this.title = title;
@@ -38,9 +34,48 @@ Book.prototype.createBookNode = function () {
   node.appendChild(deleteButton);
   return node;
 }
+// States
+let myLibrary = [
+  new Book('Harry Potter','J. K. Rowling', 600, false),
+];
 
-// add a book to the library
-function addBookToLibrary(e) {
+// Cache DOM 
+const container = document.querySelector('#container');
+const newBook = document.querySelector('#newBook');
+const inputs = document.querySelectorAll('form input');
+const message = document.querySelector('#message');
+const deleteButtons = Array.from(document.querySelectorAll('.delete'));
+
+// Bind events
+newBook.addEventListener('submit', addBookToLibrary);
+
+renderLibrary();
+
+// Utilities
+function bookExists(book) {
+  return myLibrary.some(ele => ele.title == book.title && ele.author == book.author);
+}
+
+// renders all book objects in the 'myLibrary' array to the webpage
+function renderLibrary() {
+  message.textContent = '';
+  // loop through 'myLibrary' array to render each book
+  myLibrary.forEach((book, index) => {
+    const bookNode = book.createBookNode();
+    bookNode.setAttribute('data-book', index);
+    container.appendChild(bookNode);
+  });
+}
+
+function renderNewLibrary() {
+  container.innerHTML = '';
+  renderLibrary();
+}
+
+// Public apis
+
+//add a book to the library
+ function addBookToLibrary(e) {
   e.preventDefault();
   // get all the user inputs and store them in an array
   const inputsArr = Array.from(inputs);
@@ -88,35 +123,4 @@ function changeReadStatus(e) {
   // re-render with new library
   renderNewLibrary();
 }
-
-function bookExists(book) {
-  return myLibrary.some(ele => ele.title == book.title && ele.author == book.author);
-}
-
-// renders all book objects in the 'myLibrary' array to the webpage
-function renderLibrary() {
-  message.textContent = '';
-  // loop through 'myLibrary' array to render each book
-  myLibrary.forEach((book, index) => {
-    const bookNode = book.createBookNode();
-    bookNode.setAttribute('data-book', index);
-    container.appendChild(bookNode);
-  });
-}
-
-function renderNewLibrary() {
-  container.innerHTML = '';
-  renderLibrary();
-}
-
-// User Interactions
-const container = document.querySelector('#container');
-const newBook = document.querySelector('#newBook');
-const inputs = document.querySelectorAll('form input');
-const message = document.querySelector('#message');
-const deleteButtons = Array.from(document.querySelectorAll('.delete'));
-
-newBook.addEventListener('submit', addBookToLibrary);
-
-renderLibrary();
 
