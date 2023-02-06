@@ -21,7 +21,7 @@ class Book {
   }
 }
 
-// States
+// Module states
 let myLibrary = [
   new Book('Harry Potter','J. K. Rowling', 600, false),
 ];
@@ -40,10 +40,6 @@ element.addEventListener('click', toggleRead);
 render();
 
 // Utilities
-function bookExists(book) {
-  return myLibrary.some(ele => ele.title.trim() == book.title.trim() && ele.author.trim() == book.author.trim());
-}
-
 // renders all book objects in the 'myLibrary' array to the webpage
 function render() {
   // clear user inputs and message
@@ -63,8 +59,12 @@ function render() {
 }
 
 // Public apis
-//add a book to the library
- function addBook(e) {
+// check if a book exits with title and author
+function bookExists(title, author) {
+  return myLibrary.some(ele => ele.title.trim() == title.trim() && ele.author.trim() == author.trim());
+}
+// add a book to the library
+function addBook(e) {
   e.preventDefault();
   // get all the user inputs and store them in an array
   const inputsArr = Array.from(inputs);
@@ -76,7 +76,7 @@ function render() {
   const book = new Book(...arr);
    
   // check if it exists in the "myLibrary" array
-  if (bookExists(book)) {
+  if (bookExists(book.title, book.author)) {
     message.textContent = 'Sorry, the book already exists';
   } else {
     // if not, push it to the `myLibrary` array
