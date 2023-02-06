@@ -9,22 +9,26 @@
   <title>Odin Library</title>
 </head>
 <body>
-  <header>
-    <div>Book</div>
-  </header>
   <main>
-    <!-- form element to record book info -->
-    <form id="newBook">
-      <input type="text" id="title" name="title" placeholder="Title" required><br>
-      <input type="text" id="author" name="author" placeholder="Author" required><br>
-      <input type="number" id="pages" name="pages" placeholder="0" required min=1><br>
-      <label for="read">read?</label>
-      <input type="checkbox" id="read"><br>
-      <button type="submit">Add a new book</button>
-    </form> 
-    <p id="message"></p>
-    <ul id="container">
-    </ul>
+    <div id="libraryModule">
+      <h1>Book</h1>
+      <!-- form element to record book info -->
+      <form id="newBook">
+        <input type="text" id="title" name="title" placeholder="Title" required><br>
+        <input type="text" id="author" name="author" placeholder="Author" required><br>
+        <input type="number" id="pages" name="pages" placeholder="0" required min=1><br>
+        <label for="read">read?</label>
+        <input type="checkbox" id="read"><br>
+        <button type="submit">Add a new book</button>
+      </form> 
+      <p id="message"></p>
+      <ul id="books">
+        <li>
+          <button class="read"></button>
+          <button class="delete"></button>
+        </li>
+      </ul>
+    </div>
   </main>
 </body>
 </html>

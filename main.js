@@ -40,7 +40,7 @@ let myLibrary = [
 ];
 
 // Cache DOM 
-const container = document.querySelector('#container');
+const container = document.querySelector('#books');
 const newBook = document.querySelector('#newBook');
 const inputs = document.querySelectorAll('form input');
 const message = document.querySelector('#message');
@@ -58,7 +58,7 @@ function bookExists(book) {
 
 // renders all book objects in the 'myLibrary' array to the webpage
 function renderLibrary() {
-  message.textContent = '';
+  container.innerHTML = '';
   // loop through 'myLibrary' array to render each book
   myLibrary.forEach((book, index) => {
     const bookNode = book.createBookNode();
@@ -67,10 +67,10 @@ function renderLibrary() {
   });
 }
 
-function renderNewLibrary() {
-  container.innerHTML = '';
-  renderLibrary();
-}
+// function renderNewLibrary() {
+//   container.innerHTML = '';
+//   renderLibrary();
+// }
 
 // Public apis
 
@@ -92,7 +92,7 @@ function renderNewLibrary() {
     // if not, push it to the `myLibrary` array
     myLibrary.push(book);
     // re-render with new library
-    renderNewLibrary();
+    renderLibrary();
   }
 }
 
@@ -109,7 +109,7 @@ function removeBookFromLibrary(e) {
   // filter the library array to find the book and remove it
   myLibrary = myLibrary.filter((book, index) => index != bookIndex);
   // re-render with new library
-  renderNewLibrary();
+  renderLibrary();
 }
 
 // change read status of a book
@@ -121,6 +121,6 @@ function changeReadStatus(e) {
   // update the read status of book object stored in the library
   myLibrary[bookIndex].read = !myLibrary[bookIndex].read;
   // re-render with new library
-  renderNewLibrary();
+  renderLibrary();
 }
 
