@@ -11,29 +11,14 @@ Book.prototype.info = function () {
   return `${this.title} by ${this.author} has ${this.pages} pages. `
 }
 
-Book.prototype.createBookNode = function () {
-  // create a 'li' element
-  // add textContent to it
-  // append the 'li' element to the template ele
-  const node = document.createElement('li');
-
-  // create delete button node
-  const deleteButton = document.createElement('button');
-  deleteButton.className = 'delete';
-  deleteButton.textContent = 'DELETE';
-  deleteButton.addEventListener('click', removeBookFromLibrary);
-
-  // create read toggle-button node
-  const readButton = document.createElement('button');
-  readButton.className = 'read';
-  readButton.textContent = `${this.read ? 'read' : 'not read'}`;
-  readButton.addEventListener('click', changeReadStatus);
-
-  node.textContent = this.info();
-  node.appendChild(readButton);
-  node.appendChild(deleteButton);
-  return node;
+Book.prototype.template = function (index) {
+  return `<li data-book=${index}>
+            ${this.info()} 
+            <button class="read">${this.read ? 'read' : 'not read'}</button>
+            <button class="delete">DELETE</button>
+          </li>`
 }
+
 // States
 let myLibrary = [
   new Book('Harry Potter','J. K. Rowling', 600, false),
@@ -44,12 +29,13 @@ const element = document.querySelector('#libraryModule')
 const template = element.querySelector('#books');
 const inputs = element.querySelectorAll('form input');
 const message = element.querySelector('#message');
-const deleteButtons = Array.from(document.querySelectorAll('.delete'));
 
 // Bind events
-element.addEventListener('submit', addBookToLibrary);
+element.addEventListener('submit', addBook);
+element.addEventListener('click', removeBook);
+element.addEventListener('click', toggleRead);
 
-renderLibrary();
+render();
 
 // Utilities
 function bookExists(book) {
@@ -57,26 +43,26 @@ function bookExists(book) {
 }
 
 // renders all book objects in the 'myLibrary' array to the webpage
-function renderLibrary() {
+function render() {
+  // clear user inputs and message
   template.innerHTML = '';
   message.textContent = '';
+  Array.from(inputs).map(input => {
+    input.value = '';
+    if (input.checked) {
+      input.checked = false;
+    };
+  })
   // loop through 'myLibrary' array to render each book
   myLibrary.forEach((book, index) => {
-    const bookNode = book.createBookNode();
-    bookNode.setAttribute('data-book', index);
-    template.appendChild(bookNode);
-  });
+    const bookNode = book.template(index);
+    template.innerHTML += bookNode;
+  })
 }
 
-// function renderNewLibrary() {
-//   template.innerHTML = '';
-//   renderLibrary();
-// }
-
 // Public apis
-
 //add a book to the library
- function addBookToLibrary(e) {
+ function addBook(e) {
   e.preventDefault();
   // get all the user inputs and store them in an array
   const inputsArr = Array.from(inputs);
@@ -86,6 +72,7 @@ function renderLibrary() {
   arr.push(checkbox.checked);
   // create a new book obj 
   const book = new Book(...arr);
+   
   // check if it exists in the "myLibrary" array
   if (bookExists(book)) {
     message.textContent = 'Sorry, the book already exists';
@@ -93,7 +80,7 @@ function renderLibrary() {
     // if not, push it to the `myLibrary` array
     myLibrary.push(book);
     // re-render with new library
-    renderLibrary();
+    render();
   }
 }
 
@@ -102,26 +89,30 @@ function getBookIndex(node) {
 }
 
 // delete a book from the library
-function removeBookFromLibrary(e) {
-  e.preventDefault();
-  // get book index
-  const bookNode = e.target.parentNode;
-  const bookIndex = getBookIndex(bookNode);
-  // filter the library array to find the book and remove it
-  myLibrary = myLibrary.filter((book, index) => index != bookIndex);
-  // re-render with new library
-  renderLibrary();
+function removeBook(e) {
+  if (e.target.className == 'delete') {
+    e.preventDefault();
+    // get book index
+    const bookNode = e.target.parentNode;
+    const bookIndex = getBookIndex(bookNode);
+    // filter the library array to find the book and remove it
+    myLibrary = myLibrary.filter((book, index) => index != bookIndex);
+    // re-render with new library
+    render();
+  }
 }
 
 // change read status of a book
-function changeReadStatus(e) {
-  e.preventDefault();
-  // get book index
-  const bookNode = e.target.parentNode;
-  const bookIndex = getBookIndex(bookNode);
-  // update the read status of book object stored in the library
-  myLibrary[bookIndex].read = !myLibrary[bookIndex].read;
-  // re-render with new library
-  renderLibrary();
+function toggleRead(e) {
+  if (e.target.className == 'read') {
+    e.preventDefault();
+    // get book index
+    const bookNode = e.target.parentNode;
+    const bookIndex = getBookIndex(bookNode);
+    // update the read status of book object stored in the library
+    myLibrary[bookIndex].read = !myLibrary[bookIndex].read;
+    // re-render with new library
+    render();
+  }
 }
 
