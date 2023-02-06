@@ -59,6 +59,7 @@ function bookExists(book) {
 // renders all book objects in the 'myLibrary' array to the webpage
 function renderLibrary() {
   container.innerHTML = '';
+  message.textContent = '';
   // loop through 'myLibrary' array to render each book
   myLibrary.forEach((book, index) => {
     const bookNode = book.createBookNode();
