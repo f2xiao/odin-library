@@ -14,7 +14,7 @@ Book.prototype.info = function () {
 Book.prototype.createBookNode = function () {
   // create a 'li' element
   // add textContent to it
-  // append the 'li' element to the container ele
+  // append the 'li' element to the template ele
   const node = document.createElement('li');
 
   // create delete button node
@@ -40,36 +40,36 @@ let myLibrary = [
 ];
 
 // Cache DOM 
-const container = document.querySelector('#books');
-const newBook = document.querySelector('#newBook');
-const inputs = document.querySelectorAll('form input');
-const message = document.querySelector('#message');
+const element = document.querySelector('#libraryModule')
+const template = element.querySelector('#books');
+const inputs = element.querySelectorAll('form input');
+const message = element.querySelector('#message');
 const deleteButtons = Array.from(document.querySelectorAll('.delete'));
 
 // Bind events
-newBook.addEventListener('submit', addBookToLibrary);
+element.addEventListener('submit', addBookToLibrary);
 
 renderLibrary();
 
 // Utilities
 function bookExists(book) {
-  return myLibrary.some(ele => ele.title == book.title && ele.author == book.author);
+  return myLibrary.some(ele => ele.title.trim() == book.title.trim() && ele.author.trim() == book.author.trim());
 }
 
 // renders all book objects in the 'myLibrary' array to the webpage
 function renderLibrary() {
-  container.innerHTML = '';
+  template.innerHTML = '';
   message.textContent = '';
   // loop through 'myLibrary' array to render each book
   myLibrary.forEach((book, index) => {
     const bookNode = book.createBookNode();
     bookNode.setAttribute('data-book', index);
-    container.appendChild(bookNode);
+    template.appendChild(bookNode);
   });
 }
 
 // function renderNewLibrary() {
-//   container.innerHTML = '';
+//   template.innerHTML = '';
 //   renderLibrary();
 // }
 
